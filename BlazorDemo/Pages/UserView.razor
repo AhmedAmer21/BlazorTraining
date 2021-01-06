@@ -1,0 +1,45 @@
+﻿@page "/userview"
+@using BlazorDemo.Components
+<h3>Users</h3>
+
+<button @onclick="(() => QuickAddUser(null))" class="btn btn-dark table-btn quick-add-btn">+</button>
+<AddUserDialog @ref="AddUserDialog" CloseEventCallback="@AddUserDialog_OnDialogClose"></AddUserDialog>
+
+@if (Users == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Password</th>
+                <th>Date</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Users)
+            {
+            <tr>
+                <td>@user.UserName</td>
+                <td>@user.Email</td>
+                <td>@user.Password</td>
+                <td>@user.ModifiedDate.ToShortDateString()</td>
+                <td><input type="button" @onclick="(() => QuickAddUser(user))" class="btn btn-primary" value="Edit" /></td>
+                <td><input type="button"  @onclick="(() => DeleteUser(user.Id))" class="btn btn-danger" value="Delete" /></td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@if (User != null)
+{
+    @*<label>User Name:</label>
+    <input @bind-value="@Users.FirstOrDefault().UserName" @bind-value:event="oninput" />*@
+}
